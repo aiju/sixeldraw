@@ -20,7 +20,7 @@ Changing the cursor could be supported with a softcursor but isn't implemented y
 Terminal support
 -----------------
 
-- Recent (!) *xterm* compiled with `--enable-sixel` and with Xresources settings along the lines of
+- Recent (!) *xterm* compiled with `--enable-sixel --enable-dec-locator` and with Xresources settings along the lines of
 
         XTerm*decTerminalID: vt340
         XTerm*numColorRegisters: 256
