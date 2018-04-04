@@ -610,6 +610,7 @@ restart:
 	for(y = 0; y < r.max.y; y += 6){
 		if(nbrecv(flushch, &r) > 0){
 			Bprint(ttyout, "\033\\");
+			free(col[0]);
 			goto restart;
 		}
 		if(y + 5 < r.min.y)
