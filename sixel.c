@@ -489,7 +489,7 @@ kbdkey(int c)
 		*p++ = c;
 		*p = 0;
 		r = _latin1(buf, p - buf);
-		if(p == buf + sizeof(buf) - 1 || r == -1){
+		if(p == buf + (sizeof(buf) / sizeof(*buf)) - 1 || r == -1){
 			for(q = buf; q < p; q++)
 				nbsendul(kbdch, *q);
 			p = nil;
