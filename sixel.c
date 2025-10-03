@@ -43,7 +43,7 @@ struct Tagbuf {
 	QLock ql;
 };
 
-Tagbuf mousetags, keytags, snarftags;
+Tagbuf mousetags, keytags4, keytags, snarftags;
 struct termios tiold;
 int oldpgrp;
 QLock sizelock;
@@ -191,6 +191,15 @@ matchkbd(void)
 	Wsysmsg m;
 	ulong ul;
 	
+	qlock(&keytags4.ql);
+	while(havetag(&keytags4) && nbrecv(kbdch, &ul) > 0){
+		m.rune = ul;
+		m.type = Rrdkbd4;
+		m.tag = gettag(&keytags4);
+		replymsg(&m);
+	}
+	qunlock(&keytags4.ql);
+
 	qlock(&keytags.ql);
 	while(havetag(&keytags) && nbrecv(kbdch, &ul) > 0){
 		m.rune = ul;
@@ -227,6 +236,10 @@ runmsg(Wsysmsg *m)
 	case Trdmouse:
 		puttag(&mousetags, m->tag);
 		matchmouse();
+		break;
+	case Trdkbd4:
+		puttag(&keytags4, m->tag);
+		matchkbd();
 		break;
 	case Trdkbd:
 		puttag(&keytags, m->tag);
